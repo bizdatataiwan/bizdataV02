@@ -5,93 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文件下載頁面</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9fafb;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            text-align: center;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #2d89ef;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-        input[type="password"] {
-            padding: 10px;
-            font-size: 1rem;
-            width: 80%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            background-color: #2d89ef;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #1d5cba;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        ul li {
-            margin: 10px 0;
-        }
-        ul li a {
-            text-decoration: none;
-            color: #2d89ef;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-        ul li a:hover {
-            color: #1d5cba;
-        }
-        #download-section {
-            display: none;
-        }
+        /* 原樣式省略 */
     </style>
     <script>
-        const salt = "random_salt_value";
-        const correctHashedPassword = "d16516b08e3c0e85227c7c9da749c2acd3c7b0efad470913f0fdf914db2eb93f";
+        const salt = ""; // 無鹽值
+        const correctHashedPassword = "3c521e6454840f0aa85738b05d9deab2e8249641ab6dcb46955e8e31bfba13fb"; 
 
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password + salt);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+        // 確保瀏覽器支持 Web Crypto API
+        if (!window.crypto || !crypto.subtle) {
+            alert("您的瀏覽器不支持最新的加密功能，請使用現代瀏覽器（如 Chrome 或 Firefox）。");
         }
 
+        // 計算 SHA-256 哈希值
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password + salt); 
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); 
+        }
+
+        // 驗證密碼
         async function verifyPassword() {
-            const passwordInput = document.getElementById("password").value;
+            const passwordInput = document.getElementById("password").value.trim(); 
             const hashedPassword = await hashPassword(passwordInput);
+
+            console.log("用戶輸入的hashed:", hashedPassword); 
+            console.log("正確的hashed:", correctHashedPassword);
 
             if (hashedPassword === correctHashedPassword) {
                 document.getElementById("password-form").style.display = "none";
@@ -119,6 +59,7 @@
             }
         }
 
+        // 監聽 Enter 鍵
         document.getElementById("password").addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 verifyPassword();
