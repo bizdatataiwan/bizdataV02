@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>書籍下載專區V2</title>
+    <title>文件下載頁面</title>
     <script>
         function verifyPassword() {
-            const passwordInput = document.getElementById('password').value;
-            const correctPassword = "yourpw"; // 後續替換密碼
+            // 使用者輸入的密碼
+            const passwordInput = document.getElementById("password").value;
+            const correctPassword = "yourpw"; // 替換為您設定的密碼
+
+            // 驗證密碼
             if (passwordInput === correctPassword) {
-                // 跳轉到 files 資料夾
-                window.location.href = "files/";
+                // 密碼正確，顯示下載連結
+                document.getElementById("password-form").style.display = "none";
+                document.getElementById("download-section").style.display = "block";
             } else {
-                // 顯示錯誤訊息
-                document.getElementById('error-message').style.display = 'block';
+                // 密碼錯誤，顯示錯誤訊息
+                document.getElementById("error-message").style.display = "block";
             }
         }
     </script>
@@ -32,10 +36,19 @@
     </style>
 </head>
 <body>
-    <h1>書籍下載專區V2</h1>
-    <p>請輸入書籍封底的密碼以下載：</p>
-    <input type="password" id="password" placeholder="輸入密碼">
-    <button onclick="verifyPassword()">驗證</button>
-    <p id="error-message" class="hidden error">密碼錯誤，請再試一次！</p>
+    <h1>受保護的文件下載</h1>
+    <div id="password-form">
+        <p>請輸入密碼以查看下載選項：</p>
+        <input type="password" id="password" placeholder="輸入密碼">
+        <button onclick="verifyPassword()">提交</button>
+        <p id="error-message" class="hidden error">密碼錯誤，請再試一次！</p>
+    </div>
+    <div id="download-section" class="hidden">
+        <h2>下載選項</h2>
+        <ul>
+            <li><a href="files/sample.txt" download>下載第一章範例</a></li>
+            <li><a href="files/sample2.txt" download>下載第二章範例</a></li>
+        </ul>
+    </div>
 </body>
 </html>
