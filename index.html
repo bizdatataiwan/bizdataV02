@@ -78,17 +78,52 @@
         }
     </style>
     <script>
-        function verifyPassword() {
-            const passwordInput = document.getElementById("password").value;
-            const correctPassword = "yourpw"; // 替換為您設定的密碼
+        const salt = "random_salt_value";
+        const correctHashedPassword = "6b97e9b2eb9c8728bb0d93e1469a405fbf5417886a1e7a3ed1518adac0e82745";
 
-            if (passwordInput === correctPassword) {
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password + salt);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        async function verifyPassword() {
+            const passwordInput = document.getElementById("password").value;
+            const hashedPassword = await hashPassword(passwordInput);
+
+            if (hashedPassword === correctHashedPassword) {
                 document.getElementById("password-form").style.display = "none";
-                document.getElementById("download-section").style.display = "block";
+                const downloadSection = document.getElementById("download-section");
+                downloadSection.style.display = "block";
+
+                const files = [
+                    { name: "下載第一章範例", url: "files/sample.txt" },
+                    { name: "下載第二章範例", url: "files/sample2.txt" }
+                ];
+
+                const fileList = document.createElement("ul");
+                files.forEach(file => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `<a href="${file.url}" download>${file.name}</a>`;
+                    fileList.appendChild(listItem);
+                });
+                downloadSection.appendChild(fileList);
             } else {
-                document.getElementById("error-message").style.display = "block";
+                const errorMessage = document.getElementById("error-message");
+                errorMessage.style.display = "block";
+                setTimeout(() => {
+                    errorMessage.style.display = "none";
+                }, 3000);
             }
         }
+
+        document.getElementById("password").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                verifyPassword();
+            }
+        });
     </script>
 </head>
 <body>
@@ -97,17 +132,10 @@
         <div id="password-form">
             <p>請輸入密碼以查看下載選項：</p>
             <input type="password" id="password" placeholder="輸入密碼">
-            <br>
             <button onclick="verifyPassword()">提交</button>
             <p id="error-message" class="error" style="display: none;">密碼錯誤，請再試一次！</p>
         </div>
-        <div id="download-section">
-            <h2>下載選項</h2>
-            <ul>
-                <li><a href="files/sample.txt" download>下載第一章範例</a></li>
-                <li><a href="files/sample2.txt" download>下載第二章範例</a></li>
-            </ul>
-        </div>
+        <div id="download-section" style="display: none;"></div>
     </div>
 </body>
 </html>
