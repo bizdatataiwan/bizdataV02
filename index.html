@@ -4,51 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文件下載頁面</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2d89ef;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 80%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #2d89ef;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1d5cba;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 10px 0;
+        }
+        ul li a {
+            text-decoration: none;
+            color: #2d89ef;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        ul li a:hover {
+            color: #1d5cba;
+        }
+        #download-section {
+            display: none;
+        }
+    </style>
     <script>
         function verifyPassword() {
-            // 使用者輸入的密碼
             const passwordInput = document.getElementById("password").value;
             const correctPassword = "yourpw"; // 替換為您設定的密碼
 
-            // 驗證密碼
             if (passwordInput === correctPassword) {
-                // 密碼正確，顯示下載連結
                 document.getElementById("password-form").style.display = "none";
                 document.getElementById("download-section").style.display = "block";
             } else {
-                // 密碼錯誤，顯示錯誤訊息
                 document.getElementById("error-message").style.display = "block";
             }
         }
     </script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .hidden {
-            display: none;
-        }
-        .error {
-            color: red;
-        }
-    </style>
 </head>
 <body>
-    <h1>受保護的文件下載</h1>
-    <div id="password-form">
-        <p>請輸入密碼以查看下載選項：</p>
-        <input type="password" id="password" placeholder="輸入密碼">
-        <button onclick="verifyPassword()">提交</button>
-        <p id="error-message" class="hidden error">密碼錯誤，請再試一次！</p>
-    </div>
-    <div id="download-section" class="hidden">
-        <h2>下載選項</h2>
-        <ul>
-            <li><a href="files/sample.txt" download>下載第一章範例</a></li>
-            <li><a href="files/sample2.txt" download>下載第二章範例</a></li>
-        </ul>
+    <div class="container">
+        <h1>受保護的文件下載</h1>
+        <div id="password-form">
+            <p>請輸入密碼以查看下載選項：</p>
+            <input type="password" id="password" placeholder="輸入密碼">
+            <br>
+            <button onclick="verifyPassword()">提交</button>
+            <p id="error-message" class="error" style="display: none;">密碼錯誤，請再試一次！</p>
+        </div>
+        <div id="download-section">
+            <h2>下載選項</h2>
+            <ul>
+                <li><a href="files/sample.txt" download>下載第一章範例</a></li>
+                <li><a href="files/sample2.txt" download>下載第二章範例</a></li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
