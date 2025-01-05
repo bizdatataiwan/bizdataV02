@@ -7,13 +7,13 @@
     <script>
         function verifyPassword() {
             const passwordInput = document.getElementById('password').value;
-            const correctPassword = "yourpassword"; // 後續替換密碼
+            const correctPassword = "yourpw"; // 後續替換密碼
             if (passwordInput === correctPassword) {
-                document.getElementById('download-link').style.display = 'block';
-                document.getElementById('error-message').style.display = 'none';
+                // 跳轉到 files 資料夾
+                window.location.href = "files/";
             } else {
+                // 顯示錯誤訊息
                 document.getElementById('error-message').style.display = 'block';
-                document.getElementById('download-link').style.display = 'none';
             }
         }
     </script>
@@ -37,9 +37,5 @@
     <input type="password" id="password" placeholder="輸入密碼">
     <button onclick="verifyPassword()">驗證</button>
     <p id="error-message" class="hidden error">密碼錯誤，請再試一次！</p>
-    <div id="download-link" class="hidden">
-        <p>密碼正確！點擊以下連結下載：</p>
-        <a href="yourfile.pdf" download>下載文件</a>
-    </div>
 </body>
 </html>
