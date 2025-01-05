@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商用大數據分析</title>
+    <title>書籍下載專區</title>
+    <script>
+        function verifyPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const correctPassword = "yourpassword"; // 後續替換密碼
+            if (passwordInput === correctPassword) {
+                document.getElementById('download-link').style.display = 'block';
+                document.getElementById('error-message').style.display = 'none';
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('download-link').style.display = 'none';
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .hidden {
+            display: none;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>商用大數據分析</h1>
-    <p>商用大數據分析</p>
+    <h1>書籍下載專區</h1>
+    <p>請輸入書籍封底的密碼以下載：</p>
+    <input type="password" id="password" placeholder="輸入密碼">
+    <button onclick="verifyPassword()">驗證</button>
+    <p id="error-message" class="hidden error">密碼錯誤，請再試一次！</p>
+    <div id="download-link" class="hidden">
+        <p>密碼正確！點擊以下連結下載：</p>
+        <a href="yourfile.pdf" download>下載文件</a>
+    </div>
 </body>
 </html>
