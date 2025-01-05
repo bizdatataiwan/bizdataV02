@@ -5,27 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文件下載頁面</title>
     <style>
-        /* 原樣式省略 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2d89ef;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 80%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #2d89ef;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1d5cba;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 10px 0;
+        }
+        ul li a {
+            text-decoration: none;
+            color: #2d89ef;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        ul li a:hover {
+            color: #1d5cba;
+        }
+        #download-section {
+            display: none;
+        }
     </style>
     <script>
-        const salt = ""; // 無鹽值
-        const correctHashedPassword = "3c521e6454840f0aa85738b05d9deab2e8249641ab6dcb46955e8e31bfba13fb"; 
+        const salt = ""; 
+        const correctHashedPassword = "3c521e6454840f0aa85738b05d9deab2e8249641ab6dcb46955e8e31bfba13fb";
 
-        // 確保瀏覽器支持 Web Crypto API
         if (!window.crypto || !crypto.subtle) {
             alert("您的瀏覽器不支持最新的加密功能，請使用現代瀏覽器（如 Chrome 或 Firefox）。");
         }
 
-        // 計算 SHA-256 哈希值
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password + salt); 
             const hashBuffer = await crypto.subtle.digest("SHA-256", data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); 
+            return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
         }
 
-        // 驗證密碼
         async function verifyPassword() {
             const passwordInput = document.getElementById("password").value.trim(); 
             const hashedPassword = await hashPassword(passwordInput);
